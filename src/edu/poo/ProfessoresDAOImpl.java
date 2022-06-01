@@ -71,4 +71,29 @@ public class ProfessoresDAOImpl implements IAcademiaDAO<Professor> {
 
 	}
 	
+
+	
+	public Professor consultarProfessor(String nome) {
+		Professor professor = null;
+        String sql = "SELECT * FROM professor WHERE nome LIKE '%" + nome + "%'";
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                professor = new Professor();
+                professor.setId(rs.getInt("id"));
+                professor.setNome(rs.getString("nome"));
+                professor.setCpf(rs.getString("cpf"));
+                professor.setEndereco(rs.getString("endereco"));
+                professor.setTelefone(rs.getString("telefone"));
+                professor.setNascimento(rs.getDate("nascimento").toLocalDate());
+                professor.setSalario(rs.getDouble("salario"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return professor;
+	}
+	
+	
 }

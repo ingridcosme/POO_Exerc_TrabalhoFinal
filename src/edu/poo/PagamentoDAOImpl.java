@@ -45,6 +45,7 @@ public class PagamentoDAOImpl implements IAcademiaDAO<Pagamento> {
 
 	@Override
 	public List<Pagamento> consultar(String nome) {
+		IAcademiaDAO<Aluno> dao = new AlunosDAOImpl();
 		List<Pagamento> lista = new ArrayList<>();
         String sql = "SELECT p.id, a.nome, p.data, p.valor, p.tipo, p.info FROM pagamento p, aluno a "
         		+ " WHERE p.id_aluno = a.id AND a.nome LIKE '%" + nome + "%'";
@@ -58,7 +59,7 @@ public class PagamentoDAOImpl implements IAcademiaDAO<Pagamento> {
                 pagamento.setValorPagamento(rs.getDouble("valor"));
                 pagamento.setTipoPagamento(rs.getString("tipo"));
                 pagamento.setInfoAdicional(rs.getString("info"));
-                Aluno aluno = consultarAluno(rs.getString("nome"));
+                Aluno aluno = ((AlunosDAOImpl) dao).consultarAluno(rs.getString("nome"));
                 pagamento.setAluno(aluno);
                 lista.add(pagamento);
             }
@@ -68,25 +69,5 @@ public class PagamentoDAOImpl implements IAcademiaDAO<Pagamento> {
         return lista;
 	}
 	
-	public Aluno consultarAluno(String nome) {
-		Aluno aluno = null;
-        String sql = "SELECT * FROM aluno WHERE nome LIKE '%" + nome + "%'";
-        try {
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                aluno = new Aluno();
-                aluno.setId(rs.getInt("id"));
-                aluno.setNome(rs.getString("nome"));
-                aluno.setCpf(rs.getString("cpf"));
-                aluno.setEndereco(rs.getString("endereco"));
-                aluno.setTelefone(rs.getString("telefone"));
-                aluno.setNascimento(rs.getDate("nascimento").toLocalDate());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return aluno;
-	}
 
 }

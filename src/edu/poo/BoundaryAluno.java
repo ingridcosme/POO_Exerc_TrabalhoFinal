@@ -55,6 +55,7 @@ public class BoundaryAluno extends Application {
 		String estiloTextField = "-fx-background-color: lightgray; " + "-fx-border-color: gray;"
 				+ "-fx-border-width: 0.7px;";
 		txtNome.setStyle(estiloTextField);
+		txtCPF.setStyle(estiloTextField);
 		txtEndereco.setStyle(estiloTextField);
 		txtTelefone.setStyle(estiloTextField);
 		txtDataNascimento.setStyle(estiloTextField);

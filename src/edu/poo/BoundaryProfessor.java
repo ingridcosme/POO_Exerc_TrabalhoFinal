@@ -61,6 +61,7 @@ public class BoundaryProfessor extends Application {
 				+ "-fx-border-width: 0.7px;";
 
 		txtNome.setStyle(estiloTextField);
+		txtCPF.setStyle(estiloTextField);
 		txtEndereco.setStyle(estiloTextField);
 		txtSalario.setStyle(estiloTextField);
 		txtTelefone.setStyle(estiloTextField);

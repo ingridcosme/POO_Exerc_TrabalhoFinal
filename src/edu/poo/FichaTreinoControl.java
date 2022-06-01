@@ -68,12 +68,14 @@ public class FichaTreinoControl {
 	}
 
 	public void pesquisarAluno() {
-		this.aluno = ((FichaTreinoDAOImpl) dao).consultarAluno(nomeAluno.get());
+		IAcademiaDAO<Aluno> dao = new AlunosDAOImpl();
+		this.aluno = ((AlunosDAOImpl) dao).consultarAluno(nomeAluno.get());
 		nomeAluno.set(aluno.getNome());
 	}
 	
 	public void pesquisarProfessor() {
-		this.professor = ((FichaTreinoDAOImpl) dao).consultarProfessor(nomeProfessor.get());
+		IAcademiaDAO<Professor> dao = new ProfessoresDAOImpl();
+		this.professor = ((ProfessoresDAOImpl) dao).consultarProfessor(nomeProfessor.get());
 		nomeProfessor.set(professor.getNome());
 	}
 	
@@ -82,18 +84,18 @@ public class FichaTreinoControl {
 		TableColumn<FichaTreino, String> alunoCol = new TableColumn<>("Aluno");
 		alunoCol.setCellValueFactory(new PropertyValueFactory<FichaTreino, String>("nomeAluno"));
 
-		TableColumn<FichaTreino, String> professorCol = new TableColumn<>("Aluno");
+		TableColumn<FichaTreino, String> professorCol = new TableColumn<>("Professor");
 		professorCol.setCellValueFactory(new PropertyValueFactory<FichaTreino, String>("nomeProfessor"));
 		
-		TableColumn<FichaTreino, String> dataTreinoCol = new TableColumn<>("Data Pagamento");
+		TableColumn<FichaTreino, String> dataTreinoCol = new TableColumn<>("Data Treino");
 		dataTreinoCol.setCellValueFactory(data -> {
 			LocalDate dataT = data.getValue().getDataTreino();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			return new ReadOnlyStringWrapper(dataT.format(formatter));
 		});
 		
-		TableColumn<FichaTreino, String> tipoTreinoCol = new TableColumn<>("Forma de Pagamento");
-		tipoTreinoCol.setCellValueFactory(new PropertyValueFactory<FichaTreino, String>("tipoPagamento"));
+		TableColumn<FichaTreino, String> tipoTreinoCol = new TableColumn<>("Tipo de Treino");
+		tipoTreinoCol.setCellValueFactory(new PropertyValueFactory<FichaTreino, String>("tipoTreino"));
 		
 		TableColumn<FichaTreino, String> infoCol = new TableColumn<>("Informações Adicionais");
 		infoCol.setCellValueFactory(new PropertyValueFactory<FichaTreino, String>("infoAdicional"));

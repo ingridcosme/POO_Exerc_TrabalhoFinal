@@ -69,7 +69,8 @@ public class PagamentoControl {
 	}
 
 	public void pesquisarAluno() {
-		this.aluno = ((PagamentoDAOImpl) dao).consultarAluno(nomeAluno.get());
+		IAcademiaDAO<Aluno> dao = new AlunosDAOImpl();
+		this.aluno = ((AlunosDAOImpl) dao).consultarAluno(nomeAluno.get());
 		nomeAluno.set(aluno.getNome());
 	}
 	

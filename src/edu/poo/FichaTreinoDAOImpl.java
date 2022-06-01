@@ -46,6 +46,8 @@ public class FichaTreinoDAOImpl implements IAcademiaDAO<FichaTreino> {
 
 	@Override
 	public List<FichaTreino> consultar(String nome) {
+		IAcademiaDAO<Aluno> daoA = new AlunosDAOImpl();
+		IAcademiaDAO<Professor> daoP = new ProfessoresDAOImpl();
 		List<FichaTreino> lista = new ArrayList<>();
         String sql = "SELECT t.id, a.nome as 'nome_aluno', p.nome as 'nome_professor', t.data, t.tipo, t.info "
         		+ " FROM professor p, aluno a, treino t "
@@ -59,9 +61,9 @@ public class FichaTreinoDAOImpl implements IAcademiaDAO<FichaTreino> {
                 treino.setDataTreino(rs.getDate("data").toLocalDate());
                 treino.setTipoTreino(rs.getString("tipo"));
                 treino.setInfoAdicional(rs.getString("info"));
-                Aluno aluno = consultarAluno(rs.getString("nome_aluno"));
+                Aluno aluno = ((AlunosDAOImpl) daoA).consultarAluno(rs.getString("nome_aluno"));
                 treino.setAluno(aluno);
-                Professor professor = consultarProfessor(rs.getString("nome_professor"));
+                Professor professor = ((ProfessoresDAOImpl) daoP).consultarProfessor(rs.getString("nome_professor"));
                 treino.setProfessor(professor);
                 lista.add(treino);
             }
@@ -71,47 +73,5 @@ public class FichaTreinoDAOImpl implements IAcademiaDAO<FichaTreino> {
         return lista;
 	}
 	
-	public Aluno consultarAluno(String nome) {
-		Aluno aluno = null;
-        String sql = "SELECT * FROM aluno WHERE nome LIKE '%" + nome + "%'";
-        try {
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                aluno = new Aluno();
-                aluno.setId(rs.getInt("id"));
-                aluno.setNome(rs.getString("nome"));
-                aluno.setCpf(rs.getString("cpf"));
-                aluno.setEndereco(rs.getString("endereco"));
-                aluno.setTelefone(rs.getString("telefone"));
-                aluno.setNascimento(rs.getDate("nascimento").toLocalDate());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return aluno;
-	}
-	
-	public Professor consultarProfessor(String nome) {
-		Professor professor = null;
-        String sql = "SELECT * FROM professor WHERE nome LIKE '%" + nome + "%'";
-        try {
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                professor = new Professor();
-                professor.setId(rs.getInt("id"));
-                professor.setNome(rs.getString("nome"));
-                professor.setCpf(rs.getString("cpf"));
-                professor.setEndereco(rs.getString("endereco"));
-                professor.setTelefone(rs.getString("telefone"));
-                professor.setNascimento(rs.getDate("nascimento").toLocalDate());
-                professor.setSalario(rs.getDouble("salario"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return professor;
-	}
 
 }

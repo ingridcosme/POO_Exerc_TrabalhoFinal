@@ -68,6 +68,29 @@ public class AlunosDAOImpl implements IAcademiaDAO<Aluno> {
 		return lista;
 
 	}
+
+	
+	
+	public Aluno consultarAluno(String nome) {
+		Aluno aluno = null;
+        String sql = "SELECT * FROM aluno WHERE nome LIKE '%" + nome + "%'";
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                aluno = new Aluno();
+                aluno.setId(rs.getInt("id"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setCpf(rs.getString("cpf"));
+                aluno.setEndereco(rs.getString("endereco"));
+                aluno.setTelefone(rs.getString("telefone"));
+                aluno.setNascimento(rs.getDate("nascimento").toLocalDate());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return aluno;
+	}
 	
 
 }
