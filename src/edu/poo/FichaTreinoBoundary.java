@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -79,6 +80,11 @@ public class FichaTreinoBoundary extends Application {
 		gridPane.add(adicionarBt, 0, 6);
 		adicionarBt.setOnAction((e) -> {
 			control.adicionar();
+			StringBuffer buffer = new StringBuffer();
+			buffer.append("Treino da aluna, ");
+			buffer.append(control.nomeAlunoProperty().get());
+			buffer.append(", adicionado com sucesso!");
+            new Alert(Alert.AlertType.INFORMATION, buffer.toString()).show();
 			professorTxt.setText("");
 			alunoTxt.setText("");
 			dataTreinoTxt.setText("");

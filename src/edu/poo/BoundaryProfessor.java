@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -85,6 +86,10 @@ public class BoundaryProfessor extends Application {
 
 		botaoAdicionar.setOnAction((e) -> {
 			control.adicionar();
+			
+			String mensagem = "Professora, " + control.nomeProperty().get() + ", adicionada com sucesso!";
+            new Alert(Alert.AlertType.INFORMATION, mensagem).show();
+			
 			txtNome.setText("");
 			txtCPF.setText("");
 			txtEndereco.setText("");
